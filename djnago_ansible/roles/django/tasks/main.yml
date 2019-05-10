@@ -1,0 +1,28 @@
+---
+# tasks file for django
+
+- name: Instalando Python e Pip
+  yum:
+    name: python2-pip.noarch
+    state: latest
+  register: python_pip
+  become: True
+
+- name: Instalando VirtualEnv via pip
+  pip:
+    name: virtualenv
+    state: latest
+  when: python_pip is succeeded
+  become: True
+  register: install_virtualenv
+
+- name: Criando ambiente env
+  shell: virtualenv env && source env/bin/activate
+  when: install_virtualenv is succeeded
+  register: env
+
+- name: Instalando djangocms-installer
+  pip:
+    name: djangocms-installer
+  when: env is succeeded
+
