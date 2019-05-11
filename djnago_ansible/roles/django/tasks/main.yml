@@ -16,13 +16,18 @@
   become: True
   register: install_virtualenv
 
-- name: Criando ambiente env
-  shell: virtualenv env && source env/bin/activate
-  when: install_virtualenv is succeeded
-  register: env
+- name: Apagando diretório env e mysite caso exista
+  command: rm -rf env mysite
+  ignore_errors: yes
 
-- name: Instalando djangocms-installer
-  pip:
-    name: djangocms-installer
-  when: env is succeeded
+- name: Criando env
+  command: virtualenv env
+  args:
+    creates: env/bin/activate
+  register: create_env
 
+- name: Agora vai 
+  shell: source env/bin/activate && \
+    pip install djangocms-installer ; \
+    djangocms mysite && \
+    cd mysite; nohup python manage.py runserver &
