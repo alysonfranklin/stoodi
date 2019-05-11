@@ -1,0 +1,16 @@
+---
+# tasks file for nginx
+
+- name: Instalando NGINX - WebServer
+  shell: amazon-linux-extras install nginx1.12 -y
+  register: install_nginx
+  become: True
+
+- name: Configurando Nginx
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  become: True
+  notify:
+    - restart nginx
+  when: install_nginx is succeeded

@@ -17,7 +17,12 @@
   register: install_virtualenv
 
 - name: Apagando diretório env e mysite caso exista
-  command: rm -rf env mysite
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - mysite
+    - env
   ignore_errors: yes
 
 - name: Criando env
