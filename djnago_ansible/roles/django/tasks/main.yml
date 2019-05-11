@@ -52,7 +52,7 @@
     creates: env/bin/activate
   register: create_env
 
-- name: Subindo ambiente django-cms 
+- name: Iniciando django-cms 
   shell: source env/bin/activate && \
     pip install djangocms-installer ; \
     djangocms mysite && \
