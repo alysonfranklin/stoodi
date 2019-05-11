@@ -16,6 +16,27 @@
   become: True
   register: install_virtualenv
 
+- name: Pegando processos em execução
+  shell: "ps -ef | grep -v grep | grep -w python | awk '{print $2}'"
+  register: running_processes
+
+- name: Matando processos em execução
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+
+- wait_for:
+    path: "/proc/{{ item }}/status"
+    state: absent
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+  register: killed_processes
+
+- name: Forçar a matar processos presos
+  shell: "kill -9 {{ item }}"
+  with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
+  ignore_errors: yes
+
 - name: Apagando diretório env e mysite caso exista
   file:
     path: "{{ item }}"
@@ -31,7 +52,7 @@
     creates: env/bin/activate
   register: create_env
 
-- name: Agora vai 
+- name: Subindo ambiente django-cms 
   shell: source env/bin/activate && \
     pip install djangocms-installer ; \
     djangocms mysite && \
