@@ -1,5 +1,0 @@
----
-# vars file for django
-
-PROJECT_HOME: "/tmp/my_test_home"
-ansible_python_interpreter: "/usr/local/bin/python"

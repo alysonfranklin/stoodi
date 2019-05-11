@@ -20,4 +20,5 @@ variable "key_path" {
 
 variable "sg_name" {
   description = "Informe o nome do SecurityGroup a ser criado\nEx.: sg_django_stoodi"
+  default = "sg_stoodi"
 }
