@@ -1,5 +1,5 @@
 ---
 - name: Executando role django
-  hosts: stoodi
+  hosts: all
   roles:
     - django
