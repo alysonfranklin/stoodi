@@ -69,19 +69,6 @@ variable "zona_a" {
 
 ###############################################################################
 
-# Variaveis para security group
-variable "sg-layer" {
-  description = "Security Group da ${var.layer_name} - Stack ${var.project_name}"
-  default = "201.76.168.107/32"
-}
-
-variable "sg_elb" {
-  description = "Security Group do elb - ${var.layer_name} - Stack ${var.project_name}"
-  default = "201.76.168.107/32"
-}
-
-###############################################################################
-
 # Variavel para internet gateway
 variable "igw_name" {
   description = "Internet Gateway ${var.project_name}"
